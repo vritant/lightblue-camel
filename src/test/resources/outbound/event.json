@@ -1,0 +1,32 @@
+{
+    "entityInfo": {
+        "name": "event",
+        "defaultVersion": "1.0.0",
+        "datastore": {
+            "backend":"mongo",
+            "collection": "event",
+            "datasource": "${mongo.datasource}"
+        }
+    },
+    "schema": {
+        "name": "event",
+        "version": {
+            "value": "1.0.0",
+            "changelog": "blahblah"
+        },
+        "status": {
+            "value": "active"
+        },
+        "access" : {
+             "insert": ["anyone"],
+             "update": ["anyone"],
+             "delete": ["anyone"],
+             "find": ["anyone"]
+        },
+        "fields": {
+            "_id": {"type": "uid"},
+            "name": {"type": "string"},
+            "processed": {"type": "boolean"}
+        }
+    }
+}

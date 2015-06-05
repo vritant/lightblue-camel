@@ -1,0 +1,18 @@
+{
+    "entity": "event",
+    "entityVersion": "1.0.0",
+    "data": [
+        {
+            "name": "Something already happened",
+            "processed": true
+        },
+        {
+            "name": "Something happened",
+            "processed": false
+        },
+        {
+            "name": "Something else happened",
+            "processed": false
+        }
+    ]
+}
