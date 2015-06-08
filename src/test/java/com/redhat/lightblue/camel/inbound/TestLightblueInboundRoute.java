@@ -52,11 +52,11 @@ public class TestLightblueInboundRoute extends CamelTestSupport {
             @Override
             public void configure() {
                 from("direct:start")
-                .unmarshal(new JacksonXmlDataFormat(User[].class)).convertBodyTo(User[].class)
-                .bean(new LightblueInsertRequestTransformer("user"))
-                .to("lightblue://inboundTest")
-                .bean(new LightblueErrorVerifier())
-                .to("mock:result");
+                        .unmarshal(new JacksonXmlDataFormat(User[].class)).convertBodyTo(User[].class)
+                        .bean(new LightblueInsertRequestTransformer("user"))
+                        .to("lightblue://inboundTest")
+                        .bean(new LightblueErrorVerifier())
+                        .to("mock:result");
             }
         };
     }
