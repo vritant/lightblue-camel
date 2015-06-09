@@ -1,0 +1,10 @@
+language: java
+jdk:
+- openjdk7
+- oraclejdk8
+before_install:
+- cp ./etc/settings.xml ~/.m2/
+script:
+- mvn -B clean verify
+after_script:
+- mvn -B cobertura:cobertura coveralls:report
