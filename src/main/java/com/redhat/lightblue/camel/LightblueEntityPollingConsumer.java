@@ -9,7 +9,7 @@ import com.redhat.lightblue.client.response.LightblueResponse;
 /**
  * The Lightblue consumer.
  */
-public class LightblueEntityPollingConsumer extends ScheduledPollConsumer implements LightblueConsumer {
+public class LightblueEntityPollingConsumer extends ScheduledPollConsumer implements LightblueConsumerWithSetters {
 
     private final LightblueEndpoint endpoint;
     private String entityName;

@@ -17,7 +17,7 @@ import com.redhat.lightblue.client.request.data.DataUpdateRequest;
 import com.redhat.lightblue.client.request.data.LiteralDataRequest;
 import com.redhat.lightblue.client.response.LightblueResponse;
 
-public class LightblueEntityConsumer extends DefaultConsumer implements Runnable, LightblueConsumer {
+public class LightblueEntityConsumer extends DefaultConsumer implements Runnable, LightblueConsumerWithSetters {
 
     private static final Logger LOG = LoggerFactory.getLogger(LightblueEntityConsumer.class);
 

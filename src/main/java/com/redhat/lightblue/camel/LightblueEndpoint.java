@@ -106,7 +106,7 @@ public class LightblueEndpoint extends DefaultEndpoint {
 
     @Override
     public LightblueConsumer createConsumer(Processor processor) throws Exception {
-        LightblueConsumer consumer;
+        LightblueConsumerWithSetters consumer;
         if (isPollModeEnabled()) {
             consumer = new LightblueEntityPollingConsumer(this, processor);
         }
