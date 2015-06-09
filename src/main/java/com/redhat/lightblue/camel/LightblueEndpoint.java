@@ -1,5 +1,9 @@
 package com.redhat.lightblue.camel;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.camel.EndpointConfiguration;
 import org.apache.camel.Processor;
 import org.apache.camel.Producer;
 import org.apache.camel.api.management.ManagedAttribute;
@@ -23,6 +27,11 @@ import com.redhat.lightblue.client.request.data.DataUpdateRequest;
 @UriEndpoint(scheme = "lightblue", title = "Lightblue", syntax = "lightblue:name", consumerClass = LightblueEntityPollingConsumer.class, label = "Lightblue")
 public class LightblueEndpoint extends DefaultEndpoint {
 
+    /**
+     * Internal registry of {@link LightblueClient}s, keyed by hostname.
+     */
+    private final static Map<String, LightblueClient> registeredClients = new HashMap<String, LightblueClient>();
+
     @UriParam
     @Metadata(required = "true")
     private String operation;
@@ -39,7 +48,13 @@ public class LightblueEndpoint extends DefaultEndpoint {
     @UriParam(defaultValue = "false")
     private boolean pollMode;
 
-    private LightblueClient lightblueClient;
+    public static void registerLightblueClient(String hostname, LightblueClient lightblueClient) {
+        registeredClients.put(hostname, lightblueClient);
+    }
+
+    public static LightblueClient getLightblueClient(String hostname) {
+        return registeredClients.get(hostname);
+    }
 
     public static String buildUriParameters(AbstractLightblueDataRequest request, boolean isPollModeEnabled) {
         StringBuffer builder = new StringBuffer("?");
@@ -112,15 +127,9 @@ public class LightblueEndpoint extends DefaultEndpoint {
         return true;
     }
 
-    public void setLightblueClient(LightblueClient lightblueClient) {
-        this.lightblueClient = lightblueClient;
-    }
-
     public LightblueClient getLightblueClient() {
-        /*if (lightblueClient == null) {
-            lightblueClient = new LightblueHttpClient();
-        }*/
-        return lightblueClient;
+        String hostname = getEndpointConfiguration().getParameter(EndpointConfiguration.URI_HOST).toString();
+        return getLightblueClient(hostname);
     }
 
     @ManagedAttribute(description = "Operation to be performed: [insert, update, save, find, delete]")

@@ -9,7 +9,6 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
-import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -51,6 +50,9 @@ public class TestLightblueInboundRoute extends CamelTestSupport {
 
             @Override
             public void configure() {
+                lightblue.init();
+                LightblueEndpoint.registerLightblueClient("inboundTest", lightblue.getLightblueClient());
+
                 from("direct:start")
                         .unmarshal(new JacksonXmlDataFormat(User[].class)).convertBodyTo(User[].class)
                         .bean(new LightblueInsertRequestTransformer("user"))
@@ -59,11 +61,6 @@ public class TestLightblueInboundRoute extends CamelTestSupport {
                         .to("mock:result");
             }
         };
-    }
-
-    @Before
-    public void before() {
-        lbEndpoint.setLightblueClient(lightblue.getLightblueClient());
     }
 
     @Test

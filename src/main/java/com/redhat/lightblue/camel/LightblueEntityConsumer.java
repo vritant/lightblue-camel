@@ -18,6 +18,7 @@ import com.redhat.lightblue.client.request.data.LiteralDataRequest;
 import com.redhat.lightblue.client.response.LightblueResponse;
 
 public class LightblueEntityConsumer extends DefaultConsumer implements Runnable, LightblueConsumer {
+
     private static final Logger LOG = LoggerFactory.getLogger(LightblueEntityConsumer.class);
 
     private final LightblueEndpoint endpoint;
@@ -25,6 +26,46 @@ public class LightblueEntityConsumer extends DefaultConsumer implements Runnable
     private String entityVersion;
     private String operation;
     private String body;
+
+    @Override
+    public String getEntityName() {
+        return entityName;
+    }
+
+    @Override
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
+    }
+
+    @Override
+    public String getEntityVersion() {
+        return entityVersion;
+    }
+
+    @Override
+    public void setEntityVersion(String entityVersion) {
+        this.entityVersion = entityVersion;
+    }
+
+    @Override
+    public String getOperation() {
+        return operation;
+    }
+
+    @Override
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    @Override
+    public String getBody() {
+        return body;
+    }
+
+    @Override
+    public void setBody(String body) {
+        this.body = body;
+    }
 
     public LightblueEntityConsumer(LightblueEndpoint endpoint, Processor processor) {
         super(endpoint, processor);
@@ -80,46 +121,6 @@ public class LightblueEntityConsumer extends DefaultConsumer implements Runnable
                 dataRequest.getOperationPathParam());
 
         return client.data(request);
-    }
-
-    @Override
-    public String getEntityName() {
-        return entityName;
-    }
-
-    @Override
-    public void setEntityName(String entityName) {
-        this.entityName = entityName;
-    }
-
-    @Override
-    public String getEntityVersion() {
-        return entityVersion;
-    }
-
-    @Override
-    public void setEntityVersion(String entityVersion) {
-        this.entityVersion = entityVersion;
-    }
-
-    @Override
-    public String getOperation() {
-        return operation;
-    }
-
-    @Override
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
-
-    @Override
-    public String getBody() {
-        return body;
-    }
-
-    @Override
-    public void setBody(String body) {
-        this.body = body;
     }
 
 }

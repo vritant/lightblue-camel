@@ -10,36 +10,12 @@ import com.redhat.lightblue.client.response.LightblueResponse;
  * The Lightblue consumer.
  */
 public class LightblueEntityPollingConsumer extends ScheduledPollConsumer implements LightblueConsumer {
+
     private final LightblueEndpoint endpoint;
     private String entityName;
     private String entityVersion;
     private String operation;
     private String body;
-
-    public LightblueEntityPollingConsumer(LightblueEndpoint endpoint, Processor processor) {
-        super(endpoint, processor);
-        this.endpoint = endpoint;
-    }
-
-    @Override
-    protected int poll() throws Exception {
-        Exchange exchange = endpoint.createExchange();
-
-        // create a message body
-        LightblueResponse response = LightblueEntityConsumer.callLightblue(
-                endpoint.getLightblueClient(), getEntityName(), getEntityVersion(), getOperation(), getBody());
-        exchange.getIn().setBody(response);
-        try {
-            // send message to next processor in the route
-            getProcessor().process(exchange);
-            return response.parseMatchCount(); // number of messages polled
-        } finally {
-            // log exception if an exception occurred and was not handled
-            if (exchange.getException() != null) {
-                getExceptionHandler().handleException("Error processing exchange", exchange, exchange.getException());
-            }
-        }
-    }
 
     @Override
     public String getEntityName() {
@@ -79,6 +55,31 @@ public class LightblueEntityPollingConsumer extends ScheduledPollConsumer implem
     @Override
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public LightblueEntityPollingConsumer(LightblueEndpoint endpoint, Processor processor) {
+        super(endpoint, processor);
+        this.endpoint = endpoint;
+    }
+
+    @Override
+    protected int poll() throws Exception {
+        Exchange exchange = endpoint.createExchange();
+
+        // create a message body
+        LightblueResponse response = LightblueEntityConsumer.callLightblue(
+                endpoint.getLightblueClient(), getEntityName(), getEntityVersion(), getOperation(), getBody());
+        exchange.getIn().setBody(response);
+        try {
+            // send message to next processor in the route
+            getProcessor().process(exchange);
+            return response.parseMatchCount(); // number of messages polled
+        } finally {
+            // log exception if an exception occurred and was not handled
+            if (exchange.getException() != null) {
+                getExceptionHandler().handleException("Error processing exchange", exchange, exchange.getException());
+            }
+        }
     }
 
 }

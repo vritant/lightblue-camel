@@ -47,6 +47,7 @@ public class TestLightblueOutboundPollingRoute extends CamelTestSupport {
             @Override
             public void configure() {
                 lightblue.init();
+                LightblueEndpoint.registerLightblueClient("outboundTest", lightblue.getLightblueClient());
 
                 DataFindRequest findRequest = new DataFindRequest("event", "1.0.0");
                 findRequest.where(ValueQuery.withValue("processed = false"));
@@ -56,9 +57,6 @@ public class TestLightblueOutboundPollingRoute extends CamelTestSupport {
                         .bean(new LightblueErrorVerifier())
                         .bean(new LightblueResponseTransformer<Event[]>(Event[].class))
                         .to("mock:result");
-
-                ((LightblueEndpoint) getContext().getEndpoint("lightblue://outboundTest"))
-                        .setLightblueClient(lightblue.getLightblueClient());
             }
         };
     }
