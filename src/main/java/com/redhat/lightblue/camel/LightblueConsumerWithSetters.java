@@ -1,6 +1,6 @@
 package com.redhat.lightblue.camel;
 
-public interface LightblueConsumerWithSetters extends LightblueConsumer {
+interface LightblueConsumerWithSetters extends LightblueConsumer {
 
     void setEntityName(String entityName);
 
