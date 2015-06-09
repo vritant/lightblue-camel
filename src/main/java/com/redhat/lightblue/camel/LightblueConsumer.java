@@ -1,56 +1,23 @@
 package com.redhat.lightblue.camel;
 
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
-import org.apache.camel.impl.DefaultConsumer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.camel.Consumer;
 
-import com.redhat.lightblue.client.LightblueClient;
-import com.redhat.lightblue.client.expression.query.Query;
-import com.redhat.lightblue.client.projection.Projection;
-import com.redhat.lightblue.client.request.data.DataFindRequest;
-import com.redhat.lightblue.client.response.LightblueResponse;
+public interface LightblueConsumer extends Consumer {
 
-public class LightblueConsumer extends DefaultConsumer implements Runnable {
+    String getEntityName();
 
-    private static final Logger LOG = LoggerFactory.getLogger(LightblueConsumer.class);
+    void setEntityName(String entityName);
 
-    private final LightblueEndpoint endpoint;
-    private String entityName;
-    private String entityVersion;
-    private Query query;
-    private Projection projection;
+    String getEntityVersion();
 
-    public LightblueConsumer(LightblueEndpoint endpoint, Processor processor) {
-        super(endpoint, processor);
-        this.endpoint = endpoint;
-    }
+    void setEntityVersion(String entityVersion);
 
-    @Override
-    public void run() {
-        Exchange exchange = endpoint.createExchange();
-        exchange.getIn().setBody(callLightblue(endpoint.getLightblueClient(), entityName, entityVersion, query, projection));
-        try {
-            // send message to next processor in the route
-            getProcessor().process(exchange);
-        } catch (Exception e) {
-            //TODO rethrow?
-            LOG.error("Unable to process exchange", e);
-        } finally {
-            // log exception if an exception occurred and was not handled
-            if (exchange.getException() != null) {
-                getExceptionHandler().handleException("Error processing exchange", exchange, exchange.getException());
-            }
-        }
-    }
+    String getOperation();
 
-    public static LightblueResponse callLightblue(LightblueClient client, String entityName, String entityVersion, Query query, Projection projection) {
-        DataFindRequest findRequest = new DataFindRequest(entityName, entityVersion);
-        findRequest.where(query);
-        findRequest.select(projection);
+    void setOperation(String operation);
 
-        return client.data(findRequest);
-    }
+    String getBody();
+
+    void setBody(String body);
 
 }

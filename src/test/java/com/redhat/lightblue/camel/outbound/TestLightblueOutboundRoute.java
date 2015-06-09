@@ -2,10 +2,8 @@ package com.redhat.lightblue.camel.outbound;
 
 import static com.redhat.lightblue.util.test.AbstractJsonNodeTest.loadJsonNode;
 
-import org.apache.camel.Consume;
-import org.apache.camel.Produce;
-import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -14,13 +12,14 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.redhat.lightblue.camel.LightblueEndpoint;
-import com.redhat.lightblue.camel.LightblueEntityPollConsumer;
 import com.redhat.lightblue.camel.LightblueExternalResource;
 import com.redhat.lightblue.camel.LightblueExternalResource.LightblueTestMethods;
 import com.redhat.lightblue.camel.model.Event;
 import com.redhat.lightblue.camel.transformer.LightblueResponseTransformer;
 import com.redhat.lightblue.camel.verifier.LightblueErrorVerifier;
 import com.redhat.lightblue.client.expression.query.ValueQuery;
+import com.redhat.lightblue.client.projection.FieldProjection;
+import com.redhat.lightblue.client.request.data.DataFindRequest;
 
 public class TestLightblueOutboundRoute extends CamelTestSupport {
 
@@ -41,12 +40,6 @@ public class TestLightblueOutboundRoute extends CamelTestSupport {
 
     });
 
-    @Produce(uri = "direct:end")
-    protected ProducerTemplate template;
-
-    @Consume(uri = "lightblue://outboundTest")
-    protected LightblueEntityPollConsumer consumer;
-
     @Override
     protected RouteBuilder createRouteBuilder() {
         return new RouteBuilder() {
@@ -55,7 +48,11 @@ public class TestLightblueOutboundRoute extends CamelTestSupport {
             public void configure() {
                 lightblue.init();
 
-                from("lightblue://outboundTest")
+                DataFindRequest findRequest = new DataFindRequest("event", "1.0.0");
+                findRequest.where(ValueQuery.withValue("processed = false"));
+                findRequest.select(FieldProjection.includeFieldRecursively("*"));
+
+                from("lightblue://outboundTest" + LightblueEndpoint.buildUriParameters(findRequest, true))
                         .bean(new LightblueErrorVerifier())
                         .bean(new LightblueResponseTransformer<Event[]>(Event[].class))
                         .to("mock:result");
@@ -69,12 +66,14 @@ public class TestLightblueOutboundRoute extends CamelTestSupport {
     @Before
     public void before() throws Exception {
         lightblue.loadData("event", "1.0.0", "./outbound/data/insert/events.json");
-        consumer.setQuery("event", "1.0.0", ValueQuery.withValue("processed = false"));
     }
 
     @Test
     public void testMessageFromLightblue() throws Exception {
-        System.out.println("here");
+        MockEndpoint mock = getMockEndpoint("mock:result");
+        mock.expectedMinimumMessageCount(2);
+
+        assertMockEndpointsSatisfied();
     }
 
 }
