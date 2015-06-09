@@ -51,6 +51,7 @@ public class LightblueEntityConsumer extends DefaultConsumer implements Runnable
 
     public static LightblueResponse callLightblue(LightblueClient client, String entityName, String entityVersion, String operation, String json) {
         AbstractLightblueDataRequest dataRequest;
+        //TODO Not ideal, find better way.
         switch (operation) {
             case "insert":
                 dataRequest = new DataInsertRequest();

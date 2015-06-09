@@ -44,6 +44,7 @@ public class LightblueEndpoint extends DefaultEndpoint {
     public static String buildUriParameters(AbstractLightblueDataRequest request, boolean isPollModeEnabled) {
         StringBuffer builder = new StringBuffer("?");
 
+        //TODO Not ideal, find better way.
         String operation;
         if (request instanceof DataInsertRequest) {
             operation = "insert";
