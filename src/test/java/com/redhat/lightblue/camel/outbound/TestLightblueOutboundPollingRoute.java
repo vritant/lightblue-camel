@@ -48,13 +48,13 @@ public class TestLightblueOutboundPollingRoute extends CamelTestSupport {
             @Override
             public void configure() {
                 lightblue.init();
-                LightblueEndpoint.registerLightblueClient("outboundTest", lightblue.getLightblueClient());
+                LightblueEndpoint.registerLightblueClient("outboundPollingTest", lightblue.getLightblueClient());
 
                 DataFindRequest findRequest = new DataFindRequest("event", "1.0.0");
                 findRequest.where(ValueQuery.withValue("processed = false"));
                 findRequest.select(FieldProjection.includeFieldRecursively("*"));
 
-                from("lightblue://outboundTest" + LightblueEndpoint.buildUriParameters(findRequest, true))
+                from("lightblue://outboundPollingTest" + LightblueEndpoint.buildUriParameters(findRequest, true))
                         .bean(new LightblueErrorVerifier())
                         .bean(new LightblueResponseTransformer<Event[]>(Event[].class))
                         .marshal(new JacksonXmlDataFormat())
@@ -71,9 +71,10 @@ public class TestLightblueOutboundPollingRoute extends CamelTestSupport {
     @Test
     public void testMessageFromLightblue() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMinimumMessageCount(2);
+        mock.expectedMessageCount(2);
+        mock.expectedBodiesReceived(
+                "<Events xmlns=\"\"><item><name>Something happened</name><processed>false</processed></item><item><name>Something else happened</name><processed>false</processed></item></Events>");
 
         assertMockEndpointsSatisfied();
     }
-
 }
