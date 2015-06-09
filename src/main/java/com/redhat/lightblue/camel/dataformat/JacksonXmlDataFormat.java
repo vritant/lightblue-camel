@@ -23,8 +23,7 @@ public class JacksonXmlDataFormat implements DataFormat {
 
     @Override
     public void marshal(Exchange exchange, Object graph, OutputStream stream) throws Exception {
-        // TODO Auto-generated method stub
-
+        stream.write(mapper.writeValueAsString(graph).getBytes());
     }
 
     @Override

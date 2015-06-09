@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.redhat.lightblue.camel.LightblueEndpoint;
 import com.redhat.lightblue.camel.LightblueExternalResource;
 import com.redhat.lightblue.camel.LightblueExternalResource.LightblueTestMethods;
+import com.redhat.lightblue.camel.dataformat.JacksonXmlDataFormat;
 import com.redhat.lightblue.camel.model.Event;
 import com.redhat.lightblue.camel.transformer.LightblueResponseTransformer;
 import com.redhat.lightblue.camel.verifier.LightblueErrorVerifier;
@@ -56,6 +57,7 @@ public class TestLightblueOutboundPollingRoute extends CamelTestSupport {
                 from("lightblue://outboundTest" + LightblueEndpoint.buildUriParameters(findRequest, true))
                         .bean(new LightblueErrorVerifier())
                         .bean(new LightblueResponseTransformer<Event[]>(Event[].class))
+                        .marshal(new JacksonXmlDataFormat())
                         .to("mock:result");
             }
         };
