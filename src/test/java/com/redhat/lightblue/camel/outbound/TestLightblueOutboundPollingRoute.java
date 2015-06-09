@@ -21,7 +21,7 @@ import com.redhat.lightblue.client.expression.query.ValueQuery;
 import com.redhat.lightblue.client.projection.FieldProjection;
 import com.redhat.lightblue.client.request.data.DataFindRequest;
 
-public class TestLightblueOutboundRoute extends CamelTestSupport {
+public class TestLightblueOutboundPollingRoute extends CamelTestSupport {
 
     @BeforeClass
     public static void prepareMetadataDatasources() {
