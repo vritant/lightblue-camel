@@ -1,4 +1,4 @@
-package com.redhat.lightblue.camel.outbound;
+package com.redhat.lightblue.camel.pojo.outbound;
 
 import static com.redhat.lightblue.util.test.AbstractJsonNodeTest.loadJsonNode;
 
