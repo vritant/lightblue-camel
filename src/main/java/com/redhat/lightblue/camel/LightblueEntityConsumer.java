@@ -17,7 +17,7 @@ import com.redhat.lightblue.client.request.data.DataUpdateRequest;
 import com.redhat.lightblue.client.request.data.LiteralDataRequest;
 import com.redhat.lightblue.client.response.LightblueResponse;
 
-public class LightblueEntityConsumer extends DefaultConsumer implements Runnable, LightblueConsumerWithSetters {
+public class LightblueEntityConsumer extends DefaultConsumer implements LightblueConsumerWithSetters, Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(LightblueEntityConsumer.class);
 
@@ -73,8 +73,7 @@ public class LightblueEntityConsumer extends DefaultConsumer implements Runnable
     }
 
     @Override
-    public void run() {
-        Exchange exchange = endpoint.createExchange();
+    public void process(Exchange exchange) throws Exception {
         exchange.getIn().setBody(callLightblue(endpoint.getLightblueClient(), getEntityName(), getEntityVersion(), getOperation(), getBody()));
         try {
             // send message to next processor in the route
