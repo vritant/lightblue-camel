@@ -3,14 +3,17 @@
     "entityVersion": "1.0.0",
     "data": [
         {
+            "_id": "1",
             "name": "Something already happened",
             "processed": true
         },
         {
+            "_id": "2",
             "name": "Something happened",
             "processed": false
         },
         {
+            "_id": "3",
             "name": "Something else happened",
             "processed": false
         }
