@@ -27,6 +27,39 @@ public class LightblueEntityConsumer extends DefaultConsumer implements Lightblu
     private String operation;
     private String body;
 
+    public static LightblueResponse callLightblue(LightblueClient client, String entityName, String entityVersion, String operation, String json) {
+        AbstractLightblueDataRequest dataRequest;
+        //TODO Not ideal, find better way.
+        switch (operation) {
+            case "insert":
+                dataRequest = new DataInsertRequest();
+                break;
+            case "update":
+                dataRequest = new DataUpdateRequest();
+                break;
+            case "save":
+                dataRequest = new DataSaveRequest();
+                break;
+            case "find":
+                dataRequest = new DataFindRequest();
+                break;
+            case "delete":
+                dataRequest = new DataDeleteRequest();
+                break;
+            default:
+                throw new RuntimeException("Unsupported operation: " + operation);
+        }
+
+        LiteralDataRequest request = new LiteralDataRequest(
+                entityName,
+                ((StringUtils.isEmpty(entityVersion)) ? null : entityVersion),
+                json,
+                dataRequest.getHttpMethod(),
+                dataRequest.getOperationPathParam());
+
+        return client.data(request);
+    }
+
     @Override
     public String getEntityName() {
         return entityName;
@@ -87,39 +120,6 @@ public class LightblueEntityConsumer extends DefaultConsumer implements Lightblu
                 getExceptionHandler().handleException("Error processing exchange", exchange, exchange.getException());
             }
         }
-    }
-
-    public static LightblueResponse callLightblue(LightblueClient client, String entityName, String entityVersion, String operation, String json) {
-        AbstractLightblueDataRequest dataRequest;
-        //TODO Not ideal, find better way.
-        switch (operation) {
-            case "insert":
-                dataRequest = new DataInsertRequest();
-                break;
-            case "update":
-                dataRequest = new DataUpdateRequest();
-                break;
-            case "save":
-                dataRequest = new DataSaveRequest();
-                break;
-            case "find":
-                dataRequest = new DataFindRequest();
-                break;
-            case "delete":
-                dataRequest = new DataDeleteRequest();
-                break;
-            default:
-                throw new RuntimeException("Unsupported operation: " + operation);
-        }
-
-        LiteralDataRequest request = new LiteralDataRequest(
-                entityName,
-                ((StringUtils.isEmpty(entityVersion)) ? null : entityVersion),
-                json,
-                dataRequest.getHttpMethod(),
-                dataRequest.getOperationPathParam());
-
-        return client.data(request);
     }
 
 }
