@@ -20,6 +20,7 @@ import com.redhat.lightblue.camel.LightblueEndpoint;
 import com.redhat.lightblue.camel.LightblueExternalResource;
 import com.redhat.lightblue.camel.LightblueExternalResource.LightblueTestMethods;
 import com.redhat.lightblue.camel.dataformat.JacksonXmlDataFormat;
+import com.redhat.lightblue.camel.model.Company;
 import com.redhat.lightblue.camel.model.Event;
 import com.redhat.lightblue.camel.transformer.LightblueResponseTransformer;
 import com.redhat.lightblue.camel.verifier.LightblueErrorVerifier;
@@ -66,7 +67,7 @@ public class TestLightblueOutboundRoute extends CamelTestSupport {
                             public void process(Exchange exchange) throws Exception {
                                 Event event = exchange.getIn().getBody(Event.class);
 
-                                DataFindRequest findRequest = new DataFindRequest("event", "1.0.0");
+                                DataFindRequest findRequest = new DataFindRequest("company", "1.0.0");
                                 findRequest.where(ValueQuery.withValue("_id = " + event.getId()));
                                 findRequest.select(FieldProjection.includeFieldRecursively("*"));
 
@@ -82,7 +83,7 @@ public class TestLightblueOutboundRoute extends CamelTestSupport {
                             }
                         })
                         .bean(new LightblueErrorVerifier())
-                        .bean(new LightblueResponseTransformer<Event[]>(Event[].class))
+                        .bean(new LightblueResponseTransformer<Company[]>(Company[].class))
                         .marshal(new JacksonXmlDataFormat())
                         .to("mock:result");
             };
