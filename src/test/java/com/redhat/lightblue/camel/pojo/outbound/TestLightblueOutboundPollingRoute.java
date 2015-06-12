@@ -73,8 +73,7 @@ public class TestLightblueOutboundPollingRoute extends CamelTestSupport {
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMessageCount(2);
         mock.expectedBodiesReceived(
-                "<Events xmlns=\"\"><item><name>Something happened</name><processed>false</processed></item><item><name>Something else happened</name><processed>false</processed></item></Events>");
-
+                "<Events xmlns=\"\"><item><name>Something happened</name><processed>false</processed><_id>2</_id></item><item><name>Something else happened</name><processed>false</processed><_id>3</_id></item></Events>");
         assertMockEndpointsSatisfied();
     }
 }
