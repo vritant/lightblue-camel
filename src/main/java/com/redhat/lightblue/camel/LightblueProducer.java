@@ -73,9 +73,15 @@ public class LightblueProducer extends DefaultProducer implements LightblueConsu
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        LightblueRequest req = (AbstractLightblueDataRequest) exchange.getIn().getBody();
 
-        exchange.getOut().setBody(endpoint.getLightblueClient().data(req));
+        if (exchange.getIn().getBody() instanceof String) {
+            exchange.getOut().setBody(callLightblue(endpoint.getLightblueClient(), getEntityName(), getEntityVersion(), getOperation(), getBody()));
+        }
+        else {
+            LightblueRequest req = (AbstractLightblueDataRequest) exchange.getIn().getBody();
+
+            exchange.getOut().setBody(endpoint.getLightblueClient().data(req));
+        }
     }
 
     @Deprecated
