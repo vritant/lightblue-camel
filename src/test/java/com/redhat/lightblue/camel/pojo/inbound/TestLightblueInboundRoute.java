@@ -55,7 +55,7 @@ public class TestLightblueInboundRoute extends CamelTestSupport {
 
                 from("direct:start")
                         .unmarshal(new JacksonXmlDataFormat(User[].class)).convertBodyTo(User[].class)
-                        .bean(new LightblueInsertRequestTransformer("user"))
+                        .bean(new LightblueInsertRequestTransformer("user", "1.0.0"))
                         .to("lightblue://inboundTest")
                         .bean(new LightblueErrorVerifier())
                         .to("mock:result");

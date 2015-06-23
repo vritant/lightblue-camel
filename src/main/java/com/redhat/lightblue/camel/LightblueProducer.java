@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.redhat.lightblue.client.LightblueClient;
 import com.redhat.lightblue.client.request.AbstractLightblueDataRequest;
+import com.redhat.lightblue.client.request.LightblueRequest;
 import com.redhat.lightblue.client.request.data.DataDeleteRequest;
 import com.redhat.lightblue.client.request.data.DataFindRequest;
 import com.redhat.lightblue.client.request.data.DataInsertRequest;
@@ -72,9 +73,12 @@ public class LightblueProducer extends DefaultProducer implements LightblueConsu
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        exchange.getOut().setBody(callLightblue(endpoint.getLightblueClient(), getEntityName(), getEntityVersion(), getOperation(), getBody()));
+        LightblueRequest req = (AbstractLightblueDataRequest) exchange.getIn().getBody();
+
+        exchange.getOut().setBody(endpoint.getLightblueClient().data(req));
     }
 
+    @Deprecated
     public static LightblueResponse callLightblue(LightblueClient client, String entityName, String entityVersion, String operation, String json) {
 
         AbstractLightblueDataRequest dataRequest;

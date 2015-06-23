@@ -5,6 +5,10 @@ import org.apache.camel.Handler;
 import com.redhat.lightblue.client.projection.FieldProjection;
 import com.redhat.lightblue.client.request.data.DataInsertRequest;
 
+/**
+ * Converts POJOs into a lightblue insert request which creates them.
+ *
+ */
 public class LightblueInsertRequestTransformer {
 
     private final String entityName;
