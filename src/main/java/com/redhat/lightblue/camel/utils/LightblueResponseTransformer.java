@@ -1,9 +1,16 @@
-package com.redhat.lightblue.camel.transformer;
+package com.redhat.lightblue.camel.utils;
 
 import org.apache.camel.Handler;
 
 import com.redhat.lightblue.client.response.LightblueResponse;
 
+/**
+ * Converts @{link {@link LightblueResponse} to POJOs.
+ *
+ * @param <T> type to convert to
+ *
+ * @author dcrissman
+ */
 public class LightblueResponseTransformer<T> {
 
     private final Class<T> type;

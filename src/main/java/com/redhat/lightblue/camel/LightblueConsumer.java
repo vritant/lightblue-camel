@@ -1,15 +1,41 @@
 package com.redhat.lightblue.camel;
 
-import org.apache.camel.Consumer;
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
+import org.apache.camel.impl.ScheduledPollConsumer;
 
-public interface LightblueConsumer extends Consumer {
+import com.redhat.lightblue.client.response.LightblueResponse;
 
-    String getEntityName();
+/**
+ * Lightblue polling consumer.
+ */
+public class LightblueConsumer extends ScheduledPollConsumer {
 
-    String getEntityVersion();
+    private final LightblueEndpoint endpoint;
 
-    String getOperation();
+    public LightblueConsumer(LightblueEndpoint endpoint, Processor processor) {
+        super(endpoint, processor);
+        this.endpoint = endpoint;
+    }
 
-    String getBody();
+    @Override
+    protected int poll() throws Exception {
+        Exchange exchange = endpoint.createExchange();
+
+        // create a message body
+        LightblueResponse response = endpoint.getLightblueClient().data(endpoint.getLightbluePollingRequest());
+        exchange.getIn().setBody(response);
+
+        try {
+            // send message to next processor in the route
+            getProcessor().process(exchange);
+            return response.parseMatchCount(); // number of messages polled
+        } finally {
+            // log exception if an exception occurred and was not handled
+            if (exchange.getException() != null) {
+                getExceptionHandler().handleException("Error processing exchange", exchange, exchange.getException());
+            }
+        }
+    }
 
 }
