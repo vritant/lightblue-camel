@@ -1,4 +1,4 @@
-package com.redhat.lightblue.camel.dataformat;
+package com.redhat.lightblue.camel.utils;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -8,6 +8,10 @@ import org.apache.camel.spi.DataFormat;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
+/**
+ *
+ *
+ */
 public class JacksonXmlDataFormat implements DataFormat {
 
     private final XmlMapper mapper = new XmlMapper();

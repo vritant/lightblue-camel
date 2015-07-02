@@ -1,4 +1,4 @@
-package com.redhat.lightblue.camel.verifier;
+package com.redhat.lightblue.camel.utils;
 
 import org.apache.camel.Handler;
 
