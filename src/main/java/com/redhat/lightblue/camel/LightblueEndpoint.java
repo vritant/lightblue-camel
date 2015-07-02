@@ -12,7 +12,7 @@ import com.redhat.lightblue.client.request.LightblueRequest;
 /**
  * Lightblue endpoint.
  */
-@UriEndpoint(scheme = "lightblue", title = "Lightblue", syntax = "lightblue:name", consumerClass = LightblueConsumer.class, label = "Lightblue")
+@UriEndpoint(scheme = "lightblue", title = "Lightblue", syntax = "lightblue:name", consumerClass = LightblueScheduledPollConsumer.class, label = "Lightblue")
 public class LightblueEndpoint extends DefaultEndpoint {
 
     private LightblueClient lightblueClient;
@@ -32,7 +32,7 @@ public class LightblueEndpoint extends DefaultEndpoint {
 
     @Override
     public Consumer createConsumer(Processor processor) throws Exception {
-        return new LightblueConsumer(this, processor);
+        return new LightblueScheduledPollConsumer(this, processor);
     }
 
     @Override
