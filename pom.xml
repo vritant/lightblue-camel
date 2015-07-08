@@ -23,6 +23,12 @@
         <!-- use the same version as your Camel core version -->
     </dependency>
     
+    <dependency>
+        <groupId>com.google.inject.extensions</groupId>
+        <artifactId>guice-multibindings</artifactId>
+        <version>3.0</version>
+    </dependency>
+
     <!-- support camel documentation -->
     <dependency>
       <groupId>org.apache.camel</groupId>

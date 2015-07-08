@@ -11,9 +11,9 @@ import com.redhat.lightblue.client.response.LightblueResponse;
  */
 public class LightblueScheduledPollConsumer extends ScheduledPollConsumer {
 
-    private final LightblueEndpoint endpoint;
+    private final LightblueScheduledPollEndpoint endpoint;
 
-    public LightblueScheduledPollConsumer(LightblueEndpoint endpoint, Processor processor) {
+    public LightblueScheduledPollConsumer(LightblueScheduledPollEndpoint endpoint, Processor processor) {
         super(endpoint, processor);
         this.endpoint = endpoint;
     }

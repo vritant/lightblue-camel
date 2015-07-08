@@ -11,31 +11,32 @@ import com.redhat.lightblue.client.LightblueClient;
 import com.redhat.lightblue.client.request.LightblueRequest;
 
 /**
- * Represents the component that manages {@link LightblueEndpoint}.
+ * Represents the component that manages {@link LightblueScheduledPollEndpoint}.
  */
 public class LightblueComponent extends UriEndpointComponent {
 
     @Inject
     private LightblueClient lightblueClient;
-    @Inject(optional=true)
-    private LightblueRequest lightbluePollingRequest;
+    @Inject(optional = true)
+    private Map<String, LightblueRequest> lightbluePollingRequests;
 
     public LightblueComponent() {
-        super(LightblueEndpoint.class);
+        super(LightblueScheduledPollEndpoint.class);
     }
 
     public LightblueComponent(CamelContext context) {
-        super(context, LightblueEndpoint.class);
+        super(context, LightblueScheduledPollEndpoint.class);
     }
 
     @Override
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
-        LightblueEndpoint endpoint = new LightblueEndpoint(uri, this);
+        LightblueScheduledPollEndpoint endpoint = new LightblueScheduledPollEndpoint(uri, this);
 
         // TODO: how to create the endpoint using guice?
         endpoint.setLightblueClient(lightblueClient);
-        endpoint.setLightbluePollingRequest(lightbluePollingRequest);
-
+        if (lightbluePollingRequests != null) {
+            endpoint.setLightbluePollingRequest(lightbluePollingRequests.get(remaining));
+        }
         setProperties(endpoint, parameters);
         return endpoint;
     }
@@ -44,9 +45,8 @@ public class LightblueComponent extends UriEndpointComponent {
         this.lightblueClient = lightblueClient;
     }
 
-    public void setLightbluePollingRequest(LightblueRequest lightbluePollingRequest) {
-        this.lightbluePollingRequest = lightbluePollingRequest;
+    public void setLightbluePollingRequests(Map<String, LightblueRequest> lightbluePollingRequests) {
+        this.lightbluePollingRequests = lightbluePollingRequests;
     }
-
 
 }
