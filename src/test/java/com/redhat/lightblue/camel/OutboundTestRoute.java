@@ -8,7 +8,7 @@ import com.redhat.lightblue.camel.utils.JacksonXmlDataFormat;
 import com.redhat.lightblue.camel.utils.LightblueErrorVerifier;
 import com.redhat.lightblue.camel.utils.LightblueResponseTransformer;
 
-public class TestOutboundRoute extends RouteBuilder {
+public class OutboundTestRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("lightblue://eventPoller?delay=100000")

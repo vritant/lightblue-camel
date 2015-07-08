@@ -21,7 +21,7 @@ import com.redhat.lightblue.client.request.LightblueRequest;
 import com.redhat.lightblue.client.request.data.DataFindRequest;
 
 /**
- * Test for {@link TestOutboundRoute}.
+ * Test for {@link OutboundTestRoute}.
  * 
  * @author mpatercz
  *
@@ -34,7 +34,7 @@ public class OutboundTest extends AbstractLightblueClientCRUDController {
 
     @Override
     public JsonNode[] getMetadataJsonNodes() throws Exception {
-        return new JsonNode[]{loadJsonNode("./outbound/event.json"), loadJsonNode("./inbound/user.json")};
+        return new JsonNode[]{loadJsonNode("./metadata/event.json"), loadJsonNode("./metadata/user.json")};
     }
 
     CamelContext context;
@@ -70,8 +70,8 @@ public class OutboundTest extends AbstractLightblueClientCRUDController {
     @Test
     public void testMessageFromLightblue() throws Exception {
         // load events
-        loadData("event", "1.0.0", "./outbound/data/insert/events.json");
-        loadData("user", "1.0.0", "./outbound/data/insert/users.json");
+        loadData("event", "1.0.0", "./data/events.json");
+        loadData("user", "1.0.0", "./data/users.json");
 
         userResultEndpoint.expectedBodiesReceived("<Users xmlns=\"\"><item><firstName>Taylor</firstName><lastName>Swift</lastName></item></Users>");
         eventResultEndpoint

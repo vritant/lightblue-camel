@@ -45,8 +45,8 @@ public class TestCamelModule extends CamelModule {
     @Provides
     Set<RoutesBuilder> routes(Injector injector) {
         Set<RoutesBuilder> set = new HashSet<RoutesBuilder>();
-        set.add(new TestInboundRoute());
-        set.add(new TestOutboundRoute());
+        set.add(new InboundTestRoute());
+        set.add(new OutboundTestRoute());
         return set;
     }
 
