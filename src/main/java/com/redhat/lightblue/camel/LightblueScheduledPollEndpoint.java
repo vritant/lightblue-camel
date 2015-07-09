@@ -5,7 +5,6 @@ import org.apache.camel.Processor;
 import org.apache.camel.Producer;
 import org.apache.camel.impl.ScheduledPollEndpoint;
 import org.apache.camel.spi.UriEndpoint;
-import org.apache.camel.spi.UriPath;
 
 import com.redhat.lightblue.client.LightblueClient;
 import com.redhat.lightblue.client.request.LightblueRequest;
@@ -19,9 +18,6 @@ public class LightblueScheduledPollEndpoint extends ScheduledPollEndpoint {
     private LightblueClient lightblueClient;
 
     private LightblueRequest lightbluePollingRequest;
-
-    @UriPath
-    private String request;
 
     public LightblueScheduledPollEndpoint() {
     }
@@ -37,9 +33,7 @@ public class LightblueScheduledPollEndpoint extends ScheduledPollEndpoint {
 
     @Override
     public Consumer createConsumer(Processor processor) throws Exception {
-        LightblueScheduledPollConsumer consumer = new LightblueScheduledPollConsumer(this, processor);
-        configureConsumer(consumer);
-        return consumer;
+        return new LightblueScheduledPollConsumer(this, processor);
     }
 
     @Override
