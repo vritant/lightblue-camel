@@ -10,7 +10,6 @@ import org.apache.camel.Endpoint;
 import org.apache.camel.impl.UriEndpointComponent;
 
 import com.redhat.lightblue.client.LightblueClient;
-import com.redhat.lightblue.client.request.LightblueRequest;
 
 /**
  * Represents the component that manages {@link LightblueScheduledPollEndpoint}.
@@ -18,7 +17,7 @@ import com.redhat.lightblue.client.request.LightblueRequest;
 public class LightblueComponent extends UriEndpointComponent {
 
     private LightblueClient lightblueClient;
-    private Map<String, LightblueRequest> lightbluePollingRequests;
+    private LightblueRequestsHolder lightblueRequests;
 
     public LightblueComponent() {
         super(LightblueScheduledPollEndpoint.class);
@@ -32,10 +31,11 @@ public class LightblueComponent extends UriEndpointComponent {
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
         LightblueScheduledPollEndpoint endpoint = new LightblueScheduledPollEndpoint(uri, this);
 
-        // TODO: how to create the endpoint using guice?
+        // since there is only one consumer right now, its okay to use remaining
+        // clause for identifying the request. if needed, we can use a uri param
         endpoint.setLightblueClient(lightblueClient);
-        if (lightbluePollingRequests != null) {
-            endpoint.setLightbluePollingRequest(lightbluePollingRequests.get(remaining));
+        if (lightblueRequests != null) {
+            endpoint.setLightbluePollingRequest(lightblueRequests.get(remaining));
         }
         setProperties(endpoint, parameters);
         return endpoint;
@@ -47,8 +47,8 @@ public class LightblueComponent extends UriEndpointComponent {
     }
 
     @Inject
-    public void setLightbluePollingRequests(@Nullable Map<String, LightblueRequest> lightbluePollingRequests) {
-        this.lightbluePollingRequests = lightbluePollingRequests;
+    public void setLightbluePollingRequests(@Nullable LightblueRequestsHolder lightblueRequests) {
+        this.lightblueRequests = lightblueRequests;
     }
 
 }

@@ -2,9 +2,6 @@ package com.redhat.lightblue.camel;
 
 import static com.redhat.lightblue.util.test.AbstractJsonNodeTest.loadJsonNode;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.junit.After;
@@ -17,7 +14,6 @@ import com.google.inject.Injector;
 import com.redhat.lightblue.client.expression.query.ValueQuery;
 import com.redhat.lightblue.client.integration.test.AbstractLightblueClientCRUDController;
 import com.redhat.lightblue.client.projection.FieldProjection;
-import com.redhat.lightblue.client.request.LightblueRequest;
 import com.redhat.lightblue.client.request.data.DataFindRequest;
 
 /**
@@ -44,7 +40,7 @@ public class OutboundTest extends AbstractLightblueClientCRUDController {
     @Before
     public void setupCamel() throws Exception {
         // polling request
-        Map<String, LightblueRequest> requestMap = new HashMap<>();
+        LightblueRequestsHolder requestMap = new LightblueRequestsHolder();
         DataFindRequest eventFindRequest = new DataFindRequest("event", "1.0.0");
         eventFindRequest.where(ValueQuery.withValue("processed = false"));
         eventFindRequest.select(FieldProjection.includeFieldRecursively("*"));
