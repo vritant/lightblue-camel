@@ -8,6 +8,7 @@ import org.apache.camel.RoutesBuilder;
 import org.apache.camel.guice.CamelModule;
 
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.multibindings.MapBinder;
 import com.redhat.lightblue.client.LightblueClient;
@@ -19,8 +20,7 @@ public class TestCamelModule extends CamelModule {
     private final Map<String, LightblueRequest> requests;
 
     public TestCamelModule(LightblueClient client) {
-        this.client = client;
-        this.requests = null;
+        this(client, null);
     }
 
     public TestCamelModule(LightblueClient client, Map<String, LightblueRequest> requests) {
