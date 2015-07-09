@@ -3,9 +3,9 @@ package com.redhat.lightblue.camel;
 import org.apache.camel.builder.RouteBuilder;
 
 import com.redhat.lightblue.camel.model.User;
+import com.redhat.lightblue.camel.request.LightblueInsertRequestTransformer;
 import com.redhat.lightblue.camel.utils.JacksonXmlDataFormat;
 import com.redhat.lightblue.camel.utils.LightblueErrorVerifier;
-import com.redhat.lightblue.camel.utils.LightblueInsertRequestTransformer;
 
 public class TestInboundRoute extends RouteBuilder {
 
