@@ -32,7 +32,7 @@ public class LightblueComponent extends UriEndpointComponent {
      * @param uri the full URI of the endpoint
      * 
      * @param remaining the remaining part of the URI without the query parameters or component prefix, used to identify the lightblue
-     * request since there is only one consumer right now, its okay to use remaining clause for identifying the request. if needed, we can
+     * request. since there is only one consumer right now, its okay to use remaining clause for identifying the request. if needed, we can
      * use a uri param
      * 
      * @param parameters the optional parameters passed in
