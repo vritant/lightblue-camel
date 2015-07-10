@@ -24,7 +24,7 @@ import com.redhat.lightblue.client.projection.FieldProjection;
 import com.redhat.lightblue.client.request.data.DataFindRequest;
 
 /**
- * Test for {@link TestInboundRoute}.
+ * Test for {@link InboundTestRoute}.
  * 
  * @author mpatercz
  *
@@ -64,7 +64,7 @@ public class InboundTest extends AbstractLightblueClientCRUDController {
 
     @Test
     public void testMessageToLightblue() throws Exception {
-        String message = Resources.toString(Resources.getResource("./inbound/user-message.xml"), Charsets.UTF_8);
+        String message = Resources.toString(Resources.getResource("./data/user-message.xml"), Charsets.UTF_8);
         template.sendBody(message);
 
         DataFindRequest findRequest = new DataFindRequest("user", null);
@@ -86,9 +86,7 @@ public class InboundTest extends AbstractLightblueClientCRUDController {
 
     @Override
     public JsonNode[] getMetadataJsonNodes() throws Exception {
-        return new JsonNode[]{
-                loadJsonNode("./inbound/user.json")
-        };
+        return new JsonNode[]{loadJsonNode("./metadata/user.json")};
     }
 
 }

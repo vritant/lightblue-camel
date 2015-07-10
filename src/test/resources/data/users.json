@@ -1,0 +1,21 @@
+{
+    "entity": "user",
+    "entityVersion": "1.0.0",
+    "data": [
+        {
+            "_id": "1",
+            "firstName": "Taylor",
+            "lastName": "Swift"
+        },
+        {
+            "_id": "2",
+            "firstName": "Freddie",
+            "lastName": "Mercury"
+        },
+        {
+            "_id": "3",
+            "firstName": "John",
+            "lastName": "Lennon"
+        }
+    ]
+}

@@ -10,21 +10,20 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.redhat.lightblue.client.LightblueClient;
-import com.redhat.lightblue.client.request.LightblueRequest;
 
 public class TestCamelModule extends CamelModule {
 
     private final LightblueClient client;
-    private final LightblueRequest request;
+    private final LightblueRequestsHolder requests;
 
     public TestCamelModule(LightblueClient client) {
         this(client, null);
     }
 
-    public TestCamelModule(LightblueClient client, LightblueRequest request) {
+    public TestCamelModule(LightblueClient client, LightblueRequestsHolder requestMap) {
         super();
         this.client = client;
-        this.request = request;
+        this.requests = requestMap;
     }
 
     @Override
@@ -32,21 +31,21 @@ public class TestCamelModule extends CamelModule {
         super.configure();
 
         bind(LightblueClient.class).toInstance(client);
-        bind(LightblueRequest.class).toProvider(new Provider<LightblueRequest>() {
+        bind(LightblueRequestsHolder.class).toProvider(new Provider<LightblueRequestsHolder>() {
 
             @Override
-            public LightblueRequest get() {
-                return request;
+            public LightblueRequestsHolder get() {
+                return requests;
             }
 
         });
-    }
 
+    }
     @Provides
     Set<RoutesBuilder> routes(Injector injector) {
         Set<RoutesBuilder> set = new HashSet<RoutesBuilder>();
-        set.add(new TestInboundRoute());
-        set.add(new TestOutboundRoute());
+        set.add(new InboundTestRoute());
+        set.add(new OutboundTestRoute());
         return set;
     }
 

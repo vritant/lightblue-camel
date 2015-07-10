@@ -10,32 +10,33 @@ import org.apache.camel.Endpoint;
 import org.apache.camel.impl.UriEndpointComponent;
 
 import com.redhat.lightblue.client.LightblueClient;
-import com.redhat.lightblue.client.request.LightblueRequest;
 
 /**
- * Represents the component that manages {@link LightblueEndpoint}.
+ * Represents the component that manages {@link LightblueScheduledPollEndpoint}.
  */
 public class LightblueComponent extends UriEndpointComponent {
 
     private LightblueClient lightblueClient;
-    private LightblueRequest lightbluePollingRequest;
+    private LightblueRequestsHolder lightblueRequests;
 
     public LightblueComponent() {
-        super(LightblueEndpoint.class);
+        super(LightblueScheduledPollEndpoint.class);
     }
 
     public LightblueComponent(CamelContext context) {
-        super(context, LightblueEndpoint.class);
+        super(context, LightblueScheduledPollEndpoint.class);
     }
 
     @Override
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
-        LightblueEndpoint endpoint = new LightblueEndpoint(uri, this);
+        LightblueScheduledPollEndpoint endpoint = new LightblueScheduledPollEndpoint(uri, this);
 
-        // TODO: how to create the endpoint using guice?
+        // since there is only one consumer right now, its okay to use remaining
+        // clause for identifying the request. if needed, we can use a uri param
         endpoint.setLightblueClient(lightblueClient);
-        endpoint.setLightbluePollingRequest(lightbluePollingRequest);
-
+        if (lightblueRequests != null) {
+            endpoint.setLightbluePollingRequest(lightblueRequests.get(remaining));
+        }
         setProperties(endpoint, parameters);
         return endpoint;
     }
@@ -46,8 +47,8 @@ public class LightblueComponent extends UriEndpointComponent {
     }
 
     @Inject
-    public void setLightbluePollingRequest(@Nullable LightblueRequest lightbluePollingRequest) {
-        this.lightbluePollingRequest = lightbluePollingRequest;
+    public void setLightbluePollingRequests(@Nullable LightblueRequestsHolder lightblueRequests) {
+        this.lightblueRequests = lightblueRequests;
     }
 
 }

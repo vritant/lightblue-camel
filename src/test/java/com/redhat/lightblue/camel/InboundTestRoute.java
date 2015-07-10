@@ -7,7 +7,7 @@ import com.redhat.lightblue.camel.request.LightblueInsertRequestTransformer;
 import com.redhat.lightblue.camel.utils.JacksonXmlDataFormat;
 import com.redhat.lightblue.camel.utils.LightblueErrorVerifier;
 
-public class TestInboundRoute extends RouteBuilder {
+public class InboundTestRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {

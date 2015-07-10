@@ -11,9 +11,9 @@ import com.redhat.lightblue.client.request.LightblueRequest;
  */
 public class LightblueProducer extends DefaultProducer {
 
-    private final LightblueEndpoint endpoint;
+    private final LightblueScheduledPollEndpoint endpoint;
 
-    public LightblueProducer(LightblueEndpoint endpoint) {
+    public LightblueProducer(LightblueScheduledPollEndpoint endpoint) {
         super(endpoint);
         this.endpoint = endpoint;
     }

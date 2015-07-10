@@ -3,7 +3,7 @@ package com.redhat.lightblue.camel;
 import org.apache.camel.Consumer;
 import org.apache.camel.Processor;
 import org.apache.camel.Producer;
-import org.apache.camel.impl.DefaultEndpoint;
+import org.apache.camel.impl.ScheduledPollEndpoint;
 import org.apache.camel.spi.UriEndpoint;
 
 import com.redhat.lightblue.client.LightblueClient;
@@ -13,15 +13,16 @@ import com.redhat.lightblue.client.request.LightblueRequest;
  * Lightblue endpoint.
  */
 @UriEndpoint(scheme = "lightblue", title = "Lightblue", syntax = "lightblue:name", consumerClass = LightblueScheduledPollConsumer.class, label = "Lightblue")
-public class LightblueEndpoint extends DefaultEndpoint {
+public class LightblueScheduledPollEndpoint extends ScheduledPollEndpoint {
 
     private LightblueClient lightblueClient;
 
     private LightblueRequest lightbluePollingRequest;
 
-    public LightblueEndpoint() {}
+    public LightblueScheduledPollEndpoint() {
+    }
 
-    public LightblueEndpoint(String uri, LightblueComponent component) {
+    public LightblueScheduledPollEndpoint(String uri, LightblueComponent component) {
         super(uri, component);
     }
 
@@ -40,12 +41,12 @@ public class LightblueEndpoint extends DefaultEndpoint {
         return true;
     }
 
-    //@Inject
+    // @Inject
     public void setLightblueClient(LightblueClient lightblueClient) {
         this.lightblueClient = lightblueClient;
     }
 
-    //@Inject
+    // @Inject
     public void setLightbluePollingRequest(LightblueRequest lightblueRequest) {
         this.lightbluePollingRequest = lightblueRequest;
     }
