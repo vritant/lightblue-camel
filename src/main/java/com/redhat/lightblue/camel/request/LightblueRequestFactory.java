@@ -15,7 +15,7 @@ public abstract class LightblueRequestFactory<R extends LightblueRequest> implem
     public static final String HEADER_PROJECTIONS = "projections";
     public static final String HEADER_QUERY = "query";
 
-    private static final Projection[] DEFAULT_PROJECTIONS = new Projection[]{
+    static final Projection[] DEFAULT_PROJECTIONS = new Projection[]{
         FieldProjection.includeFieldRecursively("*")
     };
 
@@ -23,14 +23,14 @@ public abstract class LightblueRequestFactory<R extends LightblueRequest> implem
     private final String entityName;
     private final String entityVersion;
 
-    private String getEntityName() {
+    public String getEntityName() {
         if (entityName == null) {
             return exchange.getIn().getHeader(HEADER_ENTITY_NAME, String.class);
         }
         return entityName;
     }
 
-    private String getEntityVersion() {
+    public String getEntityVersion() {
         if (entityVersion == null) {
             return exchange.getIn().getHeader(HEADER_ENTITY_VERSION, String.class);
         }
@@ -42,18 +42,18 @@ public abstract class LightblueRequestFactory<R extends LightblueRequest> implem
      * that will return all fields recursively.
      * @return projections
      */
-    protected Projection[] getProjections() {
+    public Projection[] getProjections() {
         if (exchange.getIn().getHeader(HEADER_PROJECTIONS) == null) {
             return DEFAULT_PROJECTIONS;
         }
         return exchange.getIn().getHeader(HEADER_PROJECTIONS, Projection[].class);
     }
 
-    protected Query getQuery() {
+    public Query getQuery() {
         return exchange.getIn().getHeader(HEADER_QUERY, Query.class);
     }
 
-    protected <T> T getBody(Class<T> type) {
+    public <T> T getBody(Class<T> type) {
         return exchange.getIn().getBody(type);
     }
 
