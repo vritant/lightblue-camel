@@ -41,7 +41,6 @@ public class LightblueComponent extends UriEndpointComponent {
      * 
      * @throws Exception is thrown if error creating the endpoint
      * 
-     * (non-Javadoc)
      * 
      * @see org.apache.camel.impl.DefaultComponent#createEndpoint(java.lang.String, java.lang.String, java.util.Map)
      */
