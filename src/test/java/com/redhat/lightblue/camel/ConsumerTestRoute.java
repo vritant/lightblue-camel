@@ -22,8 +22,8 @@ public class ConsumerTestRoute extends RouteBuilder {
             .to("mock:eventResult");
 
         from("lightblue://userPoller?initialDelay=5&delay=10&timeUnit=SECONDS")
-             .bean(new LightblueResponseTransformer<User[]>(User[].class))
-             .marshal(new JacksonXmlDataFormat())
-             .to("mock:userResult");
+            .bean(new LightblueResponseTransformer<User[]>(User[].class))
+            .marshal(new JacksonXmlDataFormat())
+            .to("mock:userResult");
     }
 }
