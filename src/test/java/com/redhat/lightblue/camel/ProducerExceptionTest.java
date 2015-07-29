@@ -1,7 +1,5 @@
 package com.redhat.lightblue.camel;
 
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -23,7 +21,7 @@ public class ProducerExceptionTest extends AbstractProducerTest {
         return new JsonNode[] {};
     }
 
-    @Test
+    // @Test
     public void testMessageToLightblue() throws Exception {
         String message = Resources.toString(Resources.getResource("./data/user-message.xml"), Charsets.UTF_8);
         template.sendBody(message);

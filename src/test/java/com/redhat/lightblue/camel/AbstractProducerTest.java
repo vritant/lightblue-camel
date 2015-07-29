@@ -28,6 +28,7 @@ public abstract class AbstractProducerTest extends AbstractLightblueClientCRUDCo
 
     @Before
     public void setupCamel() throws Exception {
+
         // init guice and register the client
         Injector injector = Guice.createInjector(new TestCamelModule(getLightblueClient()));
 

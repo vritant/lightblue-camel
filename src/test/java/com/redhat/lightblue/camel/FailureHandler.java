@@ -8,6 +8,7 @@ public class FailureHandler implements Processor {
     public void process(Exchange exchange) throws Exception {
         // just a demo of how to fetch root cause
         Throwable cause = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Throwable.class);
+        System.out.println("handler>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + cause);
         exchange.getContext().createProducerTemplate().send("mock:exception", exchange);
     }
 

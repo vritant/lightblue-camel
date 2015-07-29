@@ -41,6 +41,9 @@ public class SimpleProducerTest extends AbstractProducerTest {
     @Test
     public void testMessageToLightblue() throws Exception {
         String message = Resources.toString(Resources.getResource("./data/user-message.xml"), Charsets.UTF_8);
+
+        System.out.println("message>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + message);
+
         template.sendBody(message);
 
         DataFindRequest findRequest = new DataFindRequest("user", null);

@@ -1,7 +1,5 @@
 package com.redhat.lightblue.camel;
 
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
@@ -21,7 +19,7 @@ public class ConsumerExceptionTest extends AbstractConsumerTest {
         return new JsonNode[] {};
     }
 
-    @Test
+    // @Test
     public void testMessageFromLightblue() throws Exception {
         // load events
         userResultEndpoint.expectedMinimumMessageCount(0);

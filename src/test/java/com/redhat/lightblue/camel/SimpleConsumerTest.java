@@ -2,8 +2,6 @@ package com.redhat.lightblue.camel;
 
 import static com.redhat.lightblue.util.test.AbstractJsonNodeTest.loadJsonNode;
 
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
@@ -23,7 +21,7 @@ public class SimpleConsumerTest extends AbstractConsumerTest {
         return new JsonNode[] { loadJsonNode("./metadata/event.json"), loadJsonNode("./metadata/user.json") };
     }
 
-    @Test
+    // @Test
     public void testMessageFromLightblue() throws Exception {
         // load events
         loadData("event", "1.0.0", "./data/events.json");

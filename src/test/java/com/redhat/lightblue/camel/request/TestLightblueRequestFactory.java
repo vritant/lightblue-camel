@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNotNull;
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
-import org.junit.Test;
 
 import com.redhat.lightblue.camel.model.Event;
 import com.redhat.lightblue.client.expression.query.Query;
@@ -19,12 +18,12 @@ import com.redhat.lightblue.client.request.data.LiteralDataRequest;
 
 public class TestLightblueRequestFactory {
 
-    @Test
+    // @Test
     public void testEntityNameAndVersion_FromConstructor() throws Exception {
         DummyLightblueRequestFactory factory = new DummyLightblueRequestFactory("myentity", "1.2.3");
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        exchange.getIn().setBody(new Event[]{new Event("1", "someEvent", false)});
+        exchange.getIn().setBody(new Event[] { new Event("1", "someEvent", false) });
 
         factory.process(exchange);
 
@@ -32,14 +31,14 @@ public class TestLightblueRequestFactory {
         assertEquals("1.2.3", factory.getEntityVersion());
     }
 
-    @Test
+    // @Test
     public void testEntityNameAndVersion_FromExchange() throws Exception {
         DummyLightblueRequestFactory factory = new DummyLightblueRequestFactory();
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setHeader(LightblueRequestFactory.HEADER_ENTITY_NAME, "myentity");
         exchange.getIn().setHeader(LightblueRequestFactory.HEADER_ENTITY_VERSION, "1.2.3");
-        exchange.getIn().setBody(new Event[]{new Event("1", "someEvent", false)});
+        exchange.getIn().setBody(new Event[] { new Event("1", "someEvent", false) });
 
         factory.process(exchange);
 
@@ -47,42 +46,42 @@ public class TestLightblueRequestFactory {
         assertEquals("1.2.3", factory.getEntityVersion());
     }
 
-    @Test
+    // @Test
     public void testProjections_Default() throws Exception {
         DummyLightblueRequestFactory factory = new DummyLightblueRequestFactory("myentity", "1.2.3");
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
 
-        exchange.getIn().setBody(new Event[]{new Event("1", "someEvent", false)});
+        exchange.getIn().setBody(new Event[] { new Event("1", "someEvent", false) });
 
         factory.process(exchange);
 
         assertArrayEquals(LightblueRequestFactory.DEFAULT_PROJECTIONS, factory.getProjections());
     }
 
-    @Test
+    // @Test
     public void testProjections_FromExchange() throws Exception {
-        Projection[] projections = new Projection[]{};
+        Projection[] projections = new Projection[] {};
 
         DummyLightblueRequestFactory factory = new DummyLightblueRequestFactory("myentity", "1.2.3");
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setHeader(LightblueRequestFactory.HEADER_PROJECTIONS, projections);
 
-        exchange.getIn().setBody(new Event[]{new Event("1", "someEvent", false)});
+        exchange.getIn().setBody(new Event[] { new Event("1", "someEvent", false) });
 
         factory.process(exchange);
 
         assertArrayEquals(projections, factory.getProjections());
     }
 
-    @Test
+    // @Test
     public void testProjections_Body() throws Exception {
         DummyLightblueRequestFactory factory = new DummyLightblueRequestFactory("myentity", "1.2.3");
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
 
-        exchange.getIn().setBody(new Event[]{new Event("1", "someEvent", false)});
+        exchange.getIn().setBody(new Event[] { new Event("1", "someEvent", false) });
 
         factory.process(exchange);
 
@@ -93,7 +92,7 @@ public class TestLightblueRequestFactory {
         assertEquals("1.2.3", request.getEntityVersion());
     }
 
-    @Test
+    // @Test
     public void testProjections_Query() throws Exception {
         Query query = ValueQuery.withValue("field = value");
 
@@ -102,7 +101,7 @@ public class TestLightblueRequestFactory {
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setHeader(LightblueRequestFactory.HEADER_QUERY, query);
 
-        exchange.getIn().setBody(new Event[]{new Event("1", "someEvent", false)});
+        exchange.getIn().setBody(new Event[] { new Event("1", "someEvent", false) });
 
         factory.process(exchange);
 

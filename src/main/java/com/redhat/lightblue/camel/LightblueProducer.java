@@ -22,14 +22,21 @@ public class LightblueProducer extends DefaultProducer {
 
     @Override
     public void process(Exchange exchange) throws Exception {
+        System.out.println("producerin  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + exchange.getIn());
+        System.out.println("producerout  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + exchange.getOut());
         LightblueRequest req = (AbstractLightblueDataRequest) exchange.getIn().getBody();
 
         try {
+
+            System.out.println("producer req>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + req.getBody());
             LightblueResponse response = endpoint.getLightblueClient().data(req);
+            System.out.println("producer res>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + response.getText());
             if (response.hasError()) {
                 exchange.setException(new LightblueErrorResponseException("LightblueProducer:Error returned in response: "
                         + response.getText()));
+                System.out.println("producer res has error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + response.getText());
             } else {
+                System.out.println("producer res success >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + response.getText());
                 exchange.getOut().setBody(response);
             }
         } catch (Exception e) {
