@@ -27,7 +27,8 @@ public class LightblueProducer extends DefaultProducer {
         try {
             LightblueResponse response = endpoint.getLightblueClient().data(req);
             if (response.hasError()) {
-                throw new RuntimeException("LightblueProducer:Error returned in response: " + response.getText());
+                exchange.setException(new LightblueErrorResponseException("LightblueProducer:Error returned in response: "
+                        + response.getText()));
             } else {
                 exchange.getOut().setBody(response);
             }
