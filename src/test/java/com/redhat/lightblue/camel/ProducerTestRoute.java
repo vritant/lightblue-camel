@@ -18,7 +18,6 @@ public class ProducerTestRoute extends RouteBuilder {
 
         from("direct:start")
             .unmarshal(new JacksonXmlDataFormat(User[].class))
-            .convertBodyTo(User[].class)
             .bean(new LightblueInsertRequestFactory("user", "1.0.0"))
             .to("lightblue://inboundTest")
             .to("mock:result");
