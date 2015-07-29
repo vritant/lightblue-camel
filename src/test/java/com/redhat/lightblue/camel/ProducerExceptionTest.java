@@ -1,8 +1,5 @@
 package com.redhat.lightblue.camel;
 
-import java.net.UnknownHostException;
-
-import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,10 +21,6 @@ public class ProducerExceptionTest extends AbstractProducerTest {
     @Override
     public JsonNode[] getMetadataJsonNodes() throws Exception {
         return new JsonNode[] {};
-    }
-
-    @Before
-    public void cleanupLightblueCollections() throws UnknownHostException {
     }
 
     @Test
